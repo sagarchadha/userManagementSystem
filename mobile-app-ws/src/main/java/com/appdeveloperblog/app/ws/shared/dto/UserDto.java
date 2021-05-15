@@ -1,13 +1,12 @@
 package com.appdeveloperblog.app.ws.shared.dto;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 public class UserDto implements Serializable {
 	
 	private static final long serialVersionUID = -7483311878566055818L;
 	private long id;
-	private UUID userId;
+	private String userId;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -22,10 +21,10 @@ public class UserDto implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public UUID getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(UUID userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public String getFirstName() {

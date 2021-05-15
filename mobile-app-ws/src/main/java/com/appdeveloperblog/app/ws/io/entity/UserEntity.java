@@ -1,7 +1,6 @@
 package com.appdeveloperblog.app.ws.io.entity;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +17,7 @@ public class UserEntity implements Serializable {
 	private long id;
 	
 	@Column(nullable=false)
-	private UUID userId;
+	private String userId;
 	
 	@Column(nullable=false, length=50)
 	private String firstName;
@@ -45,11 +44,11 @@ public class UserEntity implements Serializable {
 		this.id = id;
 	}
 
-	public UUID getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(UUID userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

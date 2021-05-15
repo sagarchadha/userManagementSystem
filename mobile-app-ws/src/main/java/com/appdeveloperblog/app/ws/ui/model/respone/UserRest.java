@@ -1,19 +1,17 @@
 package com.appdeveloperblog.app.ws.ui.model.respone;
 
-import java.util.UUID;
-
 public class UserRest {
 	
-	private UUID userId;
+	private String userId;
 	private String firstName;
 	private String lastName;
 	private String email;
 
-	public UUID getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 	
-	public void setUserId(UUID userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	

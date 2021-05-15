@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Utils {
 	
-	public UUID generateUUID() {
-		return UUID.randomUUID();
+	public String randomString() {
+		return UUID.randomUUID().toString();
 	}
 }
