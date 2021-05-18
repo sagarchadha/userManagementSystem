@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.appdeveloperblog.app.ws.service.UserService;
 import com.appdeveloperblog.app.ws.shared.dto.UserDto;
 import com.appdeveloperblog.app.ws.ui.model.request.UserDetailsRequestModel;
-import com.appdeveloperblog.app.ws.ui.model.respone.ErrorMessages;
 import com.appdeveloperblog.app.ws.ui.model.respone.UserRest;
 
 @RestController
@@ -39,7 +38,6 @@ public class UserController {
 	public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails) throws Exception {
 		UserRest returnValue = new UserRest();
 		
-		if (userDetails.getFirstName().isEmpty()) throw new Exception(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 		UserDto userDto = new UserDto();
 		BeanUtils.copyProperties(userDetails, userDto);
 		

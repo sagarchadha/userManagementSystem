@@ -10,11 +10,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.appdeveloperblog.app.ws.exceptions.UserServiceException;
 import com.appdeveloperblog.app.ws.io.entity.UserEntity;
 import com.appdeveloperblog.app.ws.io.repositories.UserRepository;
 import com.appdeveloperblog.app.ws.service.UserService;
 import com.appdeveloperblog.app.ws.shared.Utils;
 import com.appdeveloperblog.app.ws.shared.dto.UserDto;
+import com.appdeveloperblog.app.ws.ui.model.respone.ErrorMessages;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,8 +32,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public UserDto createUser(UserDto user) {
-
-		if (userRepository.findByEmail(user.getEmail()) != null) throw new RuntimeException("User already exists");
+		
+		if (user.getFirstName().isEmpty()) throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+		if (userRepository.findByEmail(user.getEmail()) != null) throw new UserServiceException("User already exists");
 		
 		UserEntity userEntity = new UserEntity();
 		BeanUtils.copyProperties(user, userEntity);
