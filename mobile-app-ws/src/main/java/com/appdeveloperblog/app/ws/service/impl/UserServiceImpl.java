@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
 		
 		for (int i = 0; i < user.getAddresses().size(); i++) {
 			AddressDto address = user.getAddresses().get(i);
+			address.setUserDetails(user);
 			address.setAddressId(utils.randomString());
 			user.getAddresses().set(i, address);
 		}
