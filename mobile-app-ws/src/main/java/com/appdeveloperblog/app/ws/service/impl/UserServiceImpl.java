@@ -19,6 +19,7 @@ import com.appdeveloperblog.app.ws.exceptions.UserServiceException;
 import com.appdeveloperblog.app.ws.io.entity.UserEntity;
 import com.appdeveloperblog.app.ws.io.repositories.UserRepository;
 import com.appdeveloperblog.app.ws.service.UserService;
+import com.appdeveloperblog.app.ws.shared.AmazonSES;
 import com.appdeveloperblog.app.ws.shared.Utils;
 import com.appdeveloperblog.app.ws.shared.dto.AddressDto;
 import com.appdeveloperblog.app.ws.shared.dto.UserDto;
@@ -61,6 +62,8 @@ public class UserServiceImpl implements UserService {
 
 		UserEntity storedUserDetails = userRepository.save(userEntity);
 		UserDto returnValue = modelMapper.map(storedUserDetails, UserDto.class);
+		
+		new AmazonSES().verifyEmail(returnValue);
 
 		return returnValue;
 	}
