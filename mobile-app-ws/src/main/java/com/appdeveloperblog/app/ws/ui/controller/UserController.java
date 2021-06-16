@@ -28,6 +28,7 @@ import com.appdeveloperblog.app.ws.service.AddressService;
 import com.appdeveloperblog.app.ws.service.UserService;
 import com.appdeveloperblog.app.ws.shared.dto.AddressDto;
 import com.appdeveloperblog.app.ws.shared.dto.UserDto;
+import com.appdeveloperblog.app.ws.ui.model.request.PasswordResetRequestModel;
 import com.appdeveloperblog.app.ws.ui.model.request.UserDetailsRequestModel;
 import com.appdeveloperblog.app.ws.ui.model.respone.AddressRest;
 import com.appdeveloperblog.app.ws.ui.model.respone.OperationStatusModel;
@@ -156,17 +157,33 @@ public class UserController {
 			MediaType.APPLICATION_XML_VALUE })
 	public OperationStatusModel verifyEmail(@RequestParam(value = "token") String token) {
 		OperationStatusModel returnValue = new OperationStatusModel();
+		
 		returnValue.setOperationName(RequestOperationName.VERIFY_EMAIL.name());
+		returnValue.setOperationResult(RequestOperationStatus.ERROR.name());
 		
-		boolean isVerified = userService.verifyEmail(token);
+		boolean operationResult = userService.verifyEmail(token);
 		
-		if (isVerified) {
+		if (operationResult) {
 			returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
 		}
-		else {
-			returnValue.setOperationResult(RequestOperationStatus.ERROR.name());
-		}
 		
+		return returnValue;
+	}
+	
+	@PostMapping(path="/password-reset", produces = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE })
+	public OperationStatusModel passwordReset(@RequestBody PasswordResetRequestModel passwordResetRequestModel) {
+		OperationStatusModel returnValue = new OperationStatusModel();
+		
+		returnValue.setOperationName(RequestOperationName.PASSWORD_RESET.name());
+		returnValue.setOperationResult(RequestOperationStatus.ERROR.name());
+		
+		boolean operationResult = userService.passwordReset(passwordResetRequestModel.getEmail());
+		
+		if (operationResult) {
+			returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
+		}
+
 		return returnValue;
 	}
 }
