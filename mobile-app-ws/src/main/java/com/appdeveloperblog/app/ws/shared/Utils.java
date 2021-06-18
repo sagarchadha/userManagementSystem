@@ -14,15 +14,17 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class Utils {
 
-	public String randomString() {
-		return UUID.randomUUID().toString();
+	private String generateToken(String id, long expirationTime) {
+		return Jwts.builder().setSubject(id).setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+				.signWith(SignatureAlgorithm.HS512, SecurityConstants.getTokenSecret()).compact();
 	}
 
 	public String generateEmailVerificationToken(String userId) {
-		String token = Jwts.builder().setSubject(userId)
-				.setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
-				.signWith(SignatureAlgorithm.HS512, SecurityConstants.getTokenSecret()).compact();
-		return token;
+		return generateToken(userId, SecurityConstants.EMAIL_VERIFICATION_EXPIRATION_TIME);
+	}
+
+	public String generatePasswordResetToken(String userId) {
+		return generateToken(userId, SecurityConstants.PASSWORD_RESET_EXPIRATION_TIME);
 	}
 
 	public static boolean tokenExpiredStatus(String token) {
@@ -32,5 +34,9 @@ public class Utils {
 		Date todayDate = new Date();
 
 		return tokenExpirationDate.before(todayDate);
+	}
+	
+	public String randomString() {
+		return UUID.randomUUID().toString();
 	}
 }
