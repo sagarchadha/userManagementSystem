@@ -3,5 +3,5 @@ package com.appdeveloperblog.app.ws.ui.model.respone;
 public enum RequestOperationName {
 	DELETE, 
 	VERIFY_EMAIL, 
-	PASSWORD_RESET
+	PASSWORD_RESET_REQUEST
 }
