@@ -187,4 +187,30 @@ public class UserServiceImpl implements UserService {
 		return new AmazonSES().sendPasswordReset(userEntity.getFirstName(),
 				userEntity.getEmail(), token);
 	}
+
+	@Override
+	public boolean passwordReset(String token, String password) {
+		if (Utils.tokenExpiredStatus(token)) {
+			return false;
+		}
+		
+		PasswordResetTokenEntity passwordResetTokenEntity = passwordResetTokenRepository.findByToken(token);
+		if (passwordResetTokenEntity == null) {
+			return false;
+		}
+		
+		String encodedPassword = bCryptPasswordEncoder.encode(password);
+		
+		UserEntity userEntity = passwordResetTokenEntity.getUserDetails();
+		userEntity.setEncryptedPassword(encodedPassword);
+		UserEntity savedUserEntity = userRepository.save(userEntity);
+		
+		passwordResetTokenRepository.delete(passwordResetTokenEntity);
+		
+		if (savedUserEntity != null && savedUserEntity.getEncryptedPassword().equalsIgnoreCase(encodedPassword)) {
+			return true;
+		}
+		
+		return false;
+	}
 }
