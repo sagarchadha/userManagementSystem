@@ -66,6 +66,7 @@ class UserServiceImplTest {
 	private void setUpUserDto() {
 		userDto = new UserDto();
 		userDto.setId(0);
+		userDto.setUserId(RandomStringUtils.randomAlphanumeric(30));
 		userDto.setEmail(RandomStringUtils.randomAlphanumeric(30));
 		userDto.setEmailVerificationStatus(false);
 		userDto.setEmailVerificationToken(RandomStringUtils.randomAlphanumeric(50));
@@ -144,4 +145,28 @@ class UserServiceImplTest {
 
 	}
 
+	@Test
+	void testGetUserByUserId() {
+		UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
+
+		when(userRepository.findByUserId(anyString())).thenReturn(userEntity);
+
+		UserDto userDtoResult = userService.getUserByUserId(userDto.getUserId());
+		assertNotNull(userDtoResult);
+
+		assertEquals(userDto.getFirstName(), userDtoResult.getFirstName());
+		assertEquals(userDto.getLastName(), userDtoResult.getLastName());
+		assertEquals(userDto.getEmail(), userDtoResult.getEmail());
+		assertEquals(userDto.getEncryptedPassword(), userDtoResult.getEncryptedPassword());
+
+	}
+	
+	@Test
+	void testGetUserByUserIdNotFound() {
+		when(userRepository.findByUserId(anyString())).thenReturn(null);
+
+		assertThrows(UsernameNotFoundException.class, () -> {
+			userService.getUserByUserId(userDto.getUserId());
+		});
+	}
 }
