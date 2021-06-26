@@ -1,5 +1,7 @@
 package com.appdeveloperblog.app.ws.shared;
 
+import org.springframework.stereotype.Service;
+
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
@@ -11,6 +13,7 @@ import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 import com.amazonaws.services.simpleemail.model.SendEmailResult;
 import com.appdeveloperblog.app.ws.shared.dto.UserDto;
 
+@Service
 public class AmazonSES {
 
 //	Verified in AWS
