@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -167,6 +168,50 @@ class UserServiceImplTest {
 
 		assertThrows(UsernameNotFoundException.class, () -> {
 			userService.getUserByUserId(userDto.getUserId());
+		});
+	}
+	
+	@Test
+	void testUpdateUser() {
+		UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
+		when(userRepository.findByUserId(anyString())).thenReturn(userEntity);
+		when(userRepository.save(any(UserEntity.class))).thenReturn(userEntity);
+
+		UserDto userDtoResult = userService.updateUser(userDto.getUserId(), userDto);
+		assertNotNull(userDtoResult);
+
+		assertEquals(userDto.getFirstName(), userDtoResult.getFirstName());
+		assertEquals(userDto.getLastName(), userDtoResult.getLastName());
+		assertEquals(userDto.getEmail(), userDtoResult.getEmail());
+		assertEquals(userDto.getEncryptedPassword(), userDtoResult.getEncryptedPassword());
+	}
+	
+	@Test
+	void testUpdateUserNotFound() {
+		when(userRepository.findByUserId(anyString())).thenReturn(null);
+
+		assertThrows(UserServiceException.class, () -> {
+			userService.updateUser(userDto.getUserId(), userDto);
+		});
+	}
+	
+	@Test
+	void testDeleteUser() {
+		UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
+
+		when(userRepository.findByUserId(anyString())).thenReturn(userEntity);
+
+		userService.deleteUser(userDto.getUserId());
+		verify(userRepository).delete(userEntity);
+
+	}
+	
+	@Test
+	void testDeleteUserNotFound() {
+		when(userRepository.findByUserId(anyString())).thenReturn(null);
+
+		assertThrows(UserServiceException.class, () -> {
+			userService.deleteUser(userDto.getUserId());
 		});
 	}
 }
