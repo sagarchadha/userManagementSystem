@@ -16,7 +16,7 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
 	UserEntity findByUserId(String userId);
 	UserEntity findByEmailVerificationToken(String token);
 	
-	@Query(value="select user.first_name, user.last_name from Users user where user.first_name LIKE %:name% or user.last_name LIKE %:name%", nativeQuery = true)
-	List<Object[]> findUserFirstNameLastNameByName(@Param("name") String name);
+	@Query(value="select user.firstName, user.lastName from UserEntity user where user.firstName LIKE %:keyword% or user.lastName LIKE %:keyword%")
+	List<Object[]> findUserFirstNameLastNameByKeyword(@Param("keyword") String keyword);
 
 }
