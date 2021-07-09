@@ -37,6 +37,9 @@ import com.appdeveloperblog.app.ws.ui.model.respone.RequestOperationName;
 import com.appdeveloperblog.app.ws.ui.model.respone.RequestOperationStatus;
 import com.appdeveloperblog.app.ws.ui.model.respone.UserRest;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+
 @RestController
 @RequestMapping("users")
 public class UserController {
@@ -54,7 +57,10 @@ public class UserController {
 		BeanUtils.copyProperties(userDto, returnValue);
 		return returnValue;
 	}
-
+	
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="Authorization", value="JWT Bearer Token", paramType="header")
+	})
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public List<UserRest> getAllUsers(@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit", defaultValue = "25") int limit) {
