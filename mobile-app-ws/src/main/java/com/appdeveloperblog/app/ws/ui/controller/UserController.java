@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.appdeveloperblog.app.ws.service.AddressService;
 import com.appdeveloperblog.app.ws.service.UserService;
+import com.appdeveloperblog.app.ws.shared.StringConstants;
 import com.appdeveloperblog.app.ws.shared.dto.AddressDto;
 import com.appdeveloperblog.app.ws.shared.dto.UserDto;
 import com.appdeveloperblog.app.ws.ui.model.request.PasswordResetModel;
@@ -39,6 +40,7 @@ import com.appdeveloperblog.app.ws.ui.model.respone.UserRest;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("users")
@@ -50,6 +52,7 @@ public class UserController {
 	@Autowired
 	AddressService addressService;
 
+	@ApiOperation(value=StringConstants.getUserValue, notes=StringConstants.getUserNotes)
 	@GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public UserRest getUser(@PathVariable String id) {
 		UserRest returnValue = new UserRest();
@@ -58,6 +61,7 @@ public class UserController {
 		return returnValue;
 	}
 	
+	@ApiOperation(value=StringConstants.getAllUsersValue, notes=StringConstants.getAllUsersNotes)
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="Authorization", value="JWT Bearer Token", paramType="header")
 	})
@@ -75,6 +79,7 @@ public class UserController {
 		return returnValue;
 	}
 
+	@ApiOperation(value=StringConstants.createUserValue, notes=StringConstants.createUserNotes)
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails) throws Exception {
@@ -89,6 +94,7 @@ public class UserController {
 		return returnValue;
 	}
 
+	@ApiOperation(value=StringConstants.updateUserValue, notes=StringConstants.updateUserNotes)
 	@PutMapping(path = "/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
 					MediaType.APPLICATION_XML_VALUE })
@@ -104,6 +110,7 @@ public class UserController {
 		return returnValue;
 	}
 
+	@ApiOperation(value=StringConstants.deleteUserValue, notes=StringConstants.deleteUserNotes)
 	@DeleteMapping(path = "/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
 					MediaType.APPLICATION_XML_VALUE })
