@@ -30,5 +30,7 @@ public interface StringConstants {
 	
 	String passwordResetValue = "Password Reset Endpoint";
 	String passwordResetNotes = "This endpoint will process the change to a new password given a valid token with the new password in the body of the request. Before using this endpoint, a request to the password reset request endpoint should be sent.";
-	
+
+	String loginValue = "Login Endpoint";
+	String loginNotes = "This endpoint will login the user given a valid email and password, The user must login to access the other endpoints.";
 }
