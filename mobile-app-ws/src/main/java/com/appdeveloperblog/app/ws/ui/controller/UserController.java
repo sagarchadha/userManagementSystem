@@ -122,6 +122,7 @@ public class UserController {
 		return returnValue;
 	}
 
+	@ApiOperation(value=StringConstants.getUserAddressesValue, notes=StringConstants.getUserAddressesNotes)
 	@GetMapping(path = "/{id}/addresses", produces = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE })
 	public CollectionModel<AddressRest> getUserAddresses(@PathVariable String id) {
@@ -149,6 +150,7 @@ public class UserController {
 		return CollectionModel.of(returnValue, userLink, selfLink);
 	}
 
+	@ApiOperation(value=StringConstants.getUserAddressValue, notes=StringConstants.getUserAddressNotes)
 	@GetMapping(path = "/{userId}/addresses/{addressId}", produces = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE })
 	public EntityModel<AddressRest> getUserAddress(@PathVariable String userId, @PathVariable String addressId) {
@@ -167,6 +169,7 @@ public class UserController {
 		return EntityModel.of(returnValue, Arrays.asList(userLink, userAddressesLink, selfLink));
 	}
 	
+	@ApiOperation(value=StringConstants.verifyEmailValue, notes=StringConstants.verifyEmailNotes)
 	@GetMapping(path = "/email-verification", produces = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE })
 	public OperationStatusModel verifyEmail(@RequestParam(value = "token") String token) {
@@ -184,6 +187,8 @@ public class UserController {
 		return returnValue;
 	}
 	
+	
+	@ApiOperation(value=StringConstants.passwordResetRequestValue, notes=StringConstants.passwordResetRequestNotes)
 	@PostMapping(path="/password-reset-request", produces = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE })
 	public OperationStatusModel passwordResetRequest(@RequestBody PasswordResetRequestModel passwordResetRequestModel) {
@@ -201,6 +206,7 @@ public class UserController {
 		return returnValue;
 	}
 	
+	@ApiOperation(value=StringConstants.passwordResetValue, notes=StringConstants.passwordResetNotes)
 	@PostMapping(path="/password-reset", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public OperationStatusModel resetPassword(@RequestBody PasswordResetModel passwordResetModel) {
 		OperationStatusModel returnValue = new OperationStatusModel();
