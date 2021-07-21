@@ -12,20 +12,20 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "roles")
-public class RoleEnetity implements Serializable {
+@Table(name="authorities")
+public class AuthorityEnetity implements Serializable {
 
-	private static final long serialVersionUID = -1821846639092029231L;
-
+	private static final long serialVersionUID = 6045194554197015325L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@Column(nullable = false, length = 20)
+	@Column(nullable=false, length=20)
 	private String name;
 	
-	@ManyToMany(mappedBy="roles")
-	private Collection<UserEntity> users;
+	@ManyToMany(mappedBy="authorities")
+	private Collection<RoleEntity> roles;
 
 	public long getId() {
 		return id;
@@ -43,12 +43,12 @@ public class RoleEnetity implements Serializable {
 		this.name = name;
 	}
 
-	public Collection<UserEntity> getUsers() {
-		return users;
+	public Collection<RoleEntity> getRoles() {
+		return roles;
 	}
 
-	public void setUsers(Collection<UserEntity> users) {
-		this.users = users;
+	public void setRoles(Collection<RoleEntity> roles) {
+		this.roles = roles;
 	}
 
 }

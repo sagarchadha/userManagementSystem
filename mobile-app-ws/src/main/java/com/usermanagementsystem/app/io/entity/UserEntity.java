@@ -54,7 +54,7 @@ public class UserEntity implements Serializable {
 			joinColumns=@JoinColumn(name="users_id", referencedColumnName="id"), 
 			inverseJoinColumns=@JoinColumn(name="roles_id", referencedColumnName="id")
 	)
-	private Collection<RoleEnetity> roles;
+	private Collection<RoleEntity> roles;
 
 	public long getId() {
 		return id;
