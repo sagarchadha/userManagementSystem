@@ -33,7 +33,7 @@ public class RoleEntity implements Serializable {
 
 	@ManyToMany(cascade = { CascadeType.PERSIST }, fetch = FetchType.EAGER)
 	@JoinTable(name = "roles_authorities", joinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "authorities_id", referencedColumnName = "id"))
-	private Collection<AuthorityEnetity> authorities;
+	private Collection<AuthorityEntity> authorities;
 
 	public long getId() {
 		return id;
@@ -59,11 +59,11 @@ public class RoleEntity implements Serializable {
 		this.users = users;
 	}
 
-	public Collection<AuthorityEnetity> getAuthorities() {
+	public Collection<AuthorityEntity> getAuthorities() {
 		return authorities;
 	}
 
-	public void setAuthorities(Collection<AuthorityEnetity> authorities) {
+	public void setAuthorities(Collection<AuthorityEntity> authorities) {
 		this.authorities = authorities;
 	}
 

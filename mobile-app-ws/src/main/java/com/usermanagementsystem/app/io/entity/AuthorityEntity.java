@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="authorities")
-public class AuthorityEnetity implements Serializable {
+public class AuthorityEntity implements Serializable {
 
 	private static final long serialVersionUID = 6045194554197015325L;
 	
