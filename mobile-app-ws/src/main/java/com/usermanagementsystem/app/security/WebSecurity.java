@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.usermanagementsystem.app.io.repositories.UserRepository;
 import com.usermanagementsystem.app.service.UserService;
 
 @EnableWebSecurity
@@ -15,10 +16,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 	private final UserService userDetailsService;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final UserRepository userRepository;
 
-	public WebSecurity(UserService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+	public WebSecurity(UserService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository) {
 		this.userDetailsService = userDetailsService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+		this.userRepository = userRepository;
 	}
 
 	@Override
@@ -29,7 +32,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, SecurityConstants.PASSWORD_RESET_URL).permitAll()
 				.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
 				.anyRequest().authenticated().and().addFilter(getAuthenticationFilter())
-				.addFilter(new AuthorizationFilter(authenticationManager())).sessionManagement()
+				.addFilter(new AuthorizationFilter(authenticationManager(), userRepository)).sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
