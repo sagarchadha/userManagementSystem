@@ -49,6 +49,11 @@ public class InitialUsersSetup {
 		
 		if (roleAdmin == null) return;
 		
+		UserEntity currentAdminUser = userRepository.findByEmail("sagarc99@hotmail.com");
+		if (currentAdminUser != null) {
+			return;
+		}
+		
 		UserEntity adminUser = new UserEntity();
 		adminUser.setFirstName("Sagar");
 		adminUser.setLastName("Chada");
