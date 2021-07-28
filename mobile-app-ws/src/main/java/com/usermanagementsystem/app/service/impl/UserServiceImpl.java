@@ -20,6 +20,7 @@ import com.usermanagementsystem.app.io.entity.PasswordResetTokenEntity;
 import com.usermanagementsystem.app.io.entity.UserEntity;
 import com.usermanagementsystem.app.io.repositories.PasswordResetTokenRepository;
 import com.usermanagementsystem.app.io.repositories.UserRepository;
+import com.usermanagementsystem.app.security.UserPrincipal;
 import com.usermanagementsystem.app.service.UserService;
 import com.usermanagementsystem.app.shared.AmazonSES;
 import com.usermanagementsystem.app.shared.Utils;
@@ -96,8 +97,9 @@ public class UserServiceImpl implements UserService {
 		if (userEntity == null)
 			throw new UsernameNotFoundException(email);
 
-		return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(),
-				userEntity.getEmailVerificationStatus(), true, true, true, new ArrayList<>());
+		return new UserPrincipal(userEntity);
+//		return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(),
+//				userEntity.getEmailVerificationStatus(), true, true, true, new ArrayList<>());
 
 	}
 
