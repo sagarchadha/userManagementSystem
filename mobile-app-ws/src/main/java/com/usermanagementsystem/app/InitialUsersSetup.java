@@ -44,8 +44,8 @@ public class InitialUsersSetup {
 		AuthorityEntity writeAuthority = createAuthorithy("WRITE_AUTHORITY");
 		AuthorityEntity deleteAuthority = createAuthorithy("DELETE_AUTHORITY");
 		
-		RoleEntity roleUser = createRole("USER_ROLE", Arrays.asList(readAuthority, writeAuthority));
-		RoleEntity roleAdmin = createRole("ADMIN_ROLE", Arrays.asList(readAuthority, writeAuthority, deleteAuthority));
+		RoleEntity roleUser = createRole("ROLE_USER", Arrays.asList(readAuthority, writeAuthority));
+		RoleEntity roleAdmin = createRole("ROLE_ADMIN", Arrays.asList(readAuthority, writeAuthority, deleteAuthority));
 		
 		if (roleAdmin == null) return;
 		

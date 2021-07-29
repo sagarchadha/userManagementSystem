@@ -31,6 +31,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, SecurityConstants.PASSWORD_RESET_REQUEST_URL).permitAll()
 				.antMatchers(HttpMethod.POST, SecurityConstants.PASSWORD_RESET_URL).permitAll()
 				.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
+				.antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 				.anyRequest().authenticated().and().addFilter(getAuthenticationFilter())
 				.addFilter(new AuthorizationFilter(authenticationManager(), userRepository)).sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
