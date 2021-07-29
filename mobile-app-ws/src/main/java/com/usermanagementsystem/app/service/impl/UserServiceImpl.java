@@ -1,7 +1,7 @@
 package com.usermanagementsystem.app.service.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -17,12 +17,15 @@ import org.springframework.stereotype.Service;
 
 import com.usermanagementsystem.app.exceptions.UserServiceException;
 import com.usermanagementsystem.app.io.entity.PasswordResetTokenEntity;
+import com.usermanagementsystem.app.io.entity.RoleEntity;
 import com.usermanagementsystem.app.io.entity.UserEntity;
 import com.usermanagementsystem.app.io.repositories.PasswordResetTokenRepository;
+import com.usermanagementsystem.app.io.repositories.RoleRepository;
 import com.usermanagementsystem.app.io.repositories.UserRepository;
 import com.usermanagementsystem.app.security.UserPrincipal;
 import com.usermanagementsystem.app.service.UserService;
 import com.usermanagementsystem.app.shared.AmazonSES;
+import com.usermanagementsystem.app.shared.Roles;
 import com.usermanagementsystem.app.shared.Utils;
 import com.usermanagementsystem.app.shared.dto.AddressDto;
 import com.usermanagementsystem.app.shared.dto.UserDto;
@@ -36,6 +39,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	PasswordResetTokenRepository passwordResetTokenRepository;
+	
+	@Autowired
+	RoleRepository roleRepository;
 
 	@Autowired
 	Utils utils;
@@ -68,12 +74,19 @@ public class UserServiceImpl implements UserService {
 		userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userEntity.setEmailVerificationToken(utils.generateEmailVerificationToken(userEntity.getUserId()));
 		userEntity.setEmailVerificationStatus(false);
+		
+		Collection<RoleEntity> roleEntities = new ArrayList<>();
+		RoleEntity roleEntity = roleRepository.findByName(Roles.ROLE_USER.name());
+		if (roleEntity != null) {
+			roleEntities.add(roleEntity);
+		}
+		
+		userEntity.setRoles(roleEntities);
 
 		UserEntity storedUserDetails = userRepository.save(userEntity);
 		UserDto returnValue = modelMapper.map(storedUserDetails, UserDto.class);
-		returnValue.setRoles(Arrays.asList("ROLE_USER"));
 
-		amazonSES.verifyEmail(returnValue);
+//		amazonSES.verifyEmail(returnValue);
 
 		return returnValue;
 	}
@@ -99,8 +112,6 @@ public class UserServiceImpl implements UserService {
 			throw new UsernameNotFoundException(email);
 
 		return new UserPrincipal(userEntity);
-//		return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(),
-//				userEntity.getEmailVerificationStatus(), true, true, true, new ArrayList<>());
 
 	}
 
