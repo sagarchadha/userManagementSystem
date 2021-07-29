@@ -2,6 +2,7 @@ package com.usermanagementsystem.app.security;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.usermanagementsystem.app.io.repositories.UserRepository;
 import com.usermanagementsystem.app.service.UserService;
 
+@EnableGlobalMethodSecurity(securedEnabled=true)
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
@@ -31,7 +33,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, SecurityConstants.PASSWORD_RESET_REQUEST_URL).permitAll()
 				.antMatchers(HttpMethod.POST, SecurityConstants.PASSWORD_RESET_URL).permitAll()
 				.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
-				.antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+//				.antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 				.anyRequest().authenticated().and().addFilter(getAuthenticationFilter())
 				.addFilter(new AuthorizationFilter(authenticationManager(), userRepository)).sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);

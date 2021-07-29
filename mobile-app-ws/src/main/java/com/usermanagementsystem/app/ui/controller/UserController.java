@@ -14,6 +14,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,6 +62,7 @@ public class UserController {
 		return returnValue;
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@ApiOperation(value=StringConstants.getAllUsersValue, notes=StringConstants.getAllUsersNotes)
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="Authorization", value="JWT Bearer Token", paramType="header")
@@ -110,6 +112,7 @@ public class UserController {
 		return returnValue;
 	}
 
+	@Secured("ROLE_ADMIN")
 	@ApiOperation(value=StringConstants.deleteUserValue, notes=StringConstants.deleteUserNotes)
 	@DeleteMapping(path = "/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
