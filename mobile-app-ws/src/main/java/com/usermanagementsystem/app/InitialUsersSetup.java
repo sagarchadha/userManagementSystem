@@ -16,6 +16,7 @@ import com.usermanagementsystem.app.io.entity.UserEntity;
 import com.usermanagementsystem.app.io.repositories.AuthorityRepository;
 import com.usermanagementsystem.app.io.repositories.RoleRepository;
 import com.usermanagementsystem.app.io.repositories.UserRepository;
+import com.usermanagementsystem.app.shared.Roles;
 import com.usermanagementsystem.app.shared.Utils;
 
 @Component
@@ -44,8 +45,8 @@ public class InitialUsersSetup {
 		AuthorityEntity writeAuthority = createAuthorithy("WRITE_AUTHORITY");
 		AuthorityEntity deleteAuthority = createAuthorithy("DELETE_AUTHORITY");
 		
-		RoleEntity roleUser = createRole("ROLE_USER", Arrays.asList(readAuthority, writeAuthority));
-		RoleEntity roleAdmin = createRole("ROLE_ADMIN", Arrays.asList(readAuthority, writeAuthority, deleteAuthority));
+		createRole(Roles.ROLE_USER.name(), Arrays.asList(readAuthority, writeAuthority));
+		RoleEntity roleAdmin = createRole(Roles.ROLE_ADMIN.name(), Arrays.asList(readAuthority, writeAuthority, deleteAuthority));
 		
 		if (roleAdmin == null) return;
 		
