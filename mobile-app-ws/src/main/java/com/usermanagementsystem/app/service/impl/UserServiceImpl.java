@@ -86,7 +86,9 @@ public class UserServiceImpl implements UserService {
 		UserEntity storedUserDetails = userRepository.save(userEntity);
 		UserDto returnValue = modelMapper.map(storedUserDetails, UserDto.class);
 
-//		amazonSES.verifyEmail(returnValue);
+		if (System.getenv("ENABLE_EMAIL_SERVICE").equals("true")) {
+			amazonSES.verifyEmail(returnValue);
+		}
 
 		return returnValue;
 	}
